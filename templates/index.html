@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الشعير الطبي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>متجر الشعير الطبي عالي الجودة</h1>
+        <p>منتجات طبيعية ومحضرة بعناية لأغراضك الطبية</p>
+    </header>
+
+    <div class="container">
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                {% if product[4] %}
+                    <img src="{{ url_for('static', filename=product[4]) }}" alt="{{ product[1] }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="صورة افتراضية">
+                {% endif %}
+                <div class="product-info">
+                    <h3>{{ product[1] }}</h3>
+                    <p>{{ product[2] }}</p>
+                    <div class="price">{{ product[3] }} جنيه</div>
+                    <button class="add-to-cart-btn">أضف إلى السلة</button>
+                </div>
+            </div>
+            {% else %}
+            <p style="text-align: center; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

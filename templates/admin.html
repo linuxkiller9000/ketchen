@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - متجر الشعير الطبي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>لوحة تحكم المتجر</h1>
+        <p>إدارة المنتجات والتحكم في ما يظهر للمستخدمين</p>
+    </header>
+
+    <div class="admin-container">
+        <h2>إضافة منتج جديد</h2>
+        <form action="/admin" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">اسم المنتج:</label>
+                <input type="text" id="name" name="name" required placeholder="أدخل اسم المنتج">
+            </div>
+
+            <div class="form-group">
+                <label for="description">وصف المنتج:</label>
+                <textarea id="description" name="description" required placeholder="أدخل الوصف للأغراض الطبية"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">السعر (جنيه):</label>
+                <input type="number" id="price" name="price" step="0.01" required placeholder="أدخل السعر">
+            </div>
+
+            <div class="form-group">
+                <label for="image">صورة المنتج:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="is_featured" name="is_featured" value="yes">
+                <label for="is_featured">عرض كمنتج مميز</label>
+            </div>
+
+            <button type="submit" class="btn-submit">إضافة المنتج</button>
+        </form>
+    </div>
+
+    <div class="admin-container" style="margin-top: 2rem;">
+        <h2>المنتجات الحالية في المتجر</h2>
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                {% if product[4] %}
+                    <img src="{{ url_for('static', filename=product[4]) }}" alt="{{ product[1] }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="صورة افتراضية">
+                {% endif %}
+                <div class="product-info">
+                    <h3>{{ product[1] }}</h3>
+                    <p>{{ product[2] }}</p>
+                    <div class="price">{{ product[3] }} جنيه</div>
+                    <span style="font-size: 0.9em; color: gray;">رقم المنتج: {{ product[0] }}</span>
+                    {% if product[5] %}
+                        <span style="color: #2e7d32; font-weight: bold; margin-top: 5px;">★ مميز</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <p style="text-align: center; grid-column: 1/-1;">لا توجد منتجات مضافة حالياً.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
